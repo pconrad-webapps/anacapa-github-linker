@@ -64,6 +64,7 @@ gem "roo", "~> 2.7.0"
 gem 'webpacker', '~> 3.0'
 
 gem 'grape', '~> 1.2'
+gem 'grape-entity'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

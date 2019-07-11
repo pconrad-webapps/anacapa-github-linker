@@ -15,16 +15,16 @@ export default class UsersTable extends Component {
         <thead>
         <tr>
           <th>Name</th>
-          <th>Email</th>
-          <th>UID</th>
+          <th>Admin</th>
+          <th>Instructor</th>
         </tr>
         </thead>
         <tbody>
         { this.props.userStore.users.map( (user) => {
           return (<tr>
             <td>{user.name}</td>
-            <td>{user.email}</td>
-            <td>{user.uid}</td>
+            <td>{user.admin.toString()}</td>
+            <td>{user.instructor.toString()}</td>
           </tr>)
         } )}
         </tbody>
