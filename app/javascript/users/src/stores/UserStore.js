@@ -1,21 +1,16 @@
-import { observable } from 'mobx';
-
+import { observable, action } from 'mobx';
+import { getUsers } from '../api/users';
 export default class UserStore {
-  @observable users = [
-    {
-      name: 'Adam McAdmin',
-      admin: true,
-      instructor: false
-    },
-    {
-      name: 'Jay Teacherface',
-      admin: false,
-      instructor: true
-    },
-    {
-      name: 'Chris Gaucho',
-      admin: false,
-      instructor: false
-    }
-  ];
+  @observable users = [];
+
+  @action
+  setUsers(users) {
+    this.users = users;
+  }
+
+  load() {
+    getUsers().then(response => {
+      this.setUsers(response.data);
+    });
+  }
 }
