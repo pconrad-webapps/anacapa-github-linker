@@ -1,0 +1,9 @@
+{
+  "hello_react.js": "/packs/hello_react-22e63f164d5d6c741f98.js",
+  "hello_react.js.map": "/packs/hello_react-22e63f164d5d6c741f98.js.map",
+  "users.css": "/packs/users-1f6b6beeb6bfedda3e4851a96579d112.css",
+  "users.css.map": "/packs/users-1f6b6beeb6bfedda3e4851a96579d112.css.map",
+  "users.js": "/packs/users-1413a2a4c61e1a1cd63c.js",
+  "users.js.map": "/packs/users-1413a2a4c61e1a1cd63c.js.map",
+  "users/src/logo.svg": "/packs/users/src/logo-5d5d9eefa31e5e13a6610d9fa7a283bb.svg"
+}

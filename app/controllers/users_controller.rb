@@ -4,6 +4,8 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def index2; end
+
   def update
     @user = User.find(params[:id])
     if params[:commit].include? "Admin"

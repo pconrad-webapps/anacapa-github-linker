@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   end
 
   resources :users
+  get 'users_react', to: 'users#index2'
 
   # home page routes
   resources :visitors # NOTE that this defines a number of unused routes that would be good to remove for security
