@@ -2,5 +2,5 @@
 
 require_relative 'config/environment'
 
-run Rails.application
-run Api::V1::Root
+run Rack::Cascade.new [Rails.application, Api::V1::Root]
+
