@@ -3,3 +3,4 @@
 require_relative 'config/environment'
 
 run Rails.application
+run Api::V1::Root
