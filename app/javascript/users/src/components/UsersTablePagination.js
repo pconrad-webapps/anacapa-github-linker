@@ -1,7 +1,9 @@
 import {Pagination, PaginationItem, PaginationLink} from "reactstrap";
+import {observer, inject} from "mobx-react";
 import React from "react";
- export default class UsersTablePagination extends React.Component {
-
+@inject("userStore")
+@observer
+export default class UsersTablePagination extends React.Component {
 
    render() {
      return(
@@ -12,14 +14,17 @@ import React from "react";
        <PaginationItem>
          <PaginationLink previous href="#" />
        </PaginationItem>
-       start loop
-       <PaginationItem>
-         <PaginationLink href="#">
-           page number goes here
-         </PaginationLink>
-       </PaginationItem>
-       end loop
-
+       {[...Array(this.props.userStore.totalPages)].map (
+         (page, i) => {
+           return(
+             <PaginationItem>
+             <PaginationLink href="#">
+               {i + 1}
+             </PaginationLink>
+           </PaginationItem>
+           )
+         }
+       )}
        <PaginationItem>
          <PaginationLink next href="#" />
        </PaginationItem>

@@ -3,12 +3,19 @@ import { getUsers } from '../api/users';
 export default class UserStore {
   @observable users = [];
   @observable currentPage = 1;
-  const perPage = 10;
+  @observable totalPages = 0;
+  @observable pageSize = 10;
 
   @action
   setUsers(users) {
     this.users = users;
   }
+
+  @action
+  setTotalPages(totalPages) {
+    this.totalPages = totalPages;
+  }
+
 
   @action
   setCurrentPage(page) {
@@ -17,8 +24,15 @@ export default class UserStore {
   }
 
   load() {
-    getUsers(this.currentPage, this.perPage).then(response => {
-      this.setUsers(response.data);
+    getUsers(this.currentPage, this.pageSize).then(response => {
+      const users = response.data.data.map((user) => {
+        return {
+          ...user.attributes,
+          id: user.id
+        };
+      });
+      this.setUsers(users);
+      this.setTotalPages(response.data.meta.totalPages);
     });
   }
 }

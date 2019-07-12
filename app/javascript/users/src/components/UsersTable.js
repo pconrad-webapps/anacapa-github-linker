@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import {inject, observer} from 'mobx-react'
-
+import UsersTablePagination from './UsersTablePagination'
 
 @inject('userStore')
 @observer

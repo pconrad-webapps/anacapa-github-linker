@@ -6,6 +6,7 @@
     "mobx": "^5.11.0",
     "mobx-react": "^6.1.1",
     "prop-types": "^15.7.2",
+    "qs": "^6.7.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "reactstrap": "^8.0.1"
