@@ -1,8 +1,8 @@
 module Api
   module V1
-    class Users < Grape::API
+    class Users < Base
       resources :users do
-        desc 'List Users'#, resource: Api::Resources::V1::User
+        desc 'List Users', resource: Api::Resources::V1::User
         params do
           optional :page, type: Integer
           optional :per_page, type: Integer

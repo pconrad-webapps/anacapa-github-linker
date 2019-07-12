@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   resources :courses do
     post :join
     get :view_ta
-    post :update_ta 
+    post :update_ta
     scope module: :courses do
       resources :roster_students do
         collection do
@@ -31,4 +31,16 @@ Rails.application.routes.draw do
   # home page routes
   resources :visitors # NOTE that this defines a number of unused routes that would be good to remove for security
   root :to => "visitors#index"
+
+  #mount Api::V1::Root, at: '/api'
+
+  namespace :api do
+    mount AfJsonApi.root_endpoint => '/'
+    mount AfJsonApi.documentation => '/'
+  end
+
+  scope module: 'af_json_api' do
+    match '/api/docs' => 'documentation#index', via: :get
+  end
+
 end
