@@ -1,5 +1,6 @@
 import { observable, action } from 'mobx';
-import { getUsers } from '../api/users';
+import { getUsers, setInstructor, setAdmin} from '../api/users';
+
 export default class UserStore {
   @observable users = [];
   @observable currentPage = 1;
@@ -21,6 +22,22 @@ export default class UserStore {
   setCurrentPage(page) {
     this.currentPage = page;
     this.load();
+  }
+
+  @action
+  toggleInstructor(id, value){
+    setInstructor(id, value).then((response) => {
+      let user = this.users.find((user) => user.id === response.data.data.id);
+      user.instructor = response.data.data.attributes.instructor;
+    });
+  }
+
+  @action
+  toggleAdmin(id, value){
+    setAdmin(id, value).then((response) => {
+      let user = this.users.find((user) => user.id === response.data.data.id);
+      user.admin = response.data.data.attributes.admin;
+    });
   }
 
   load() {

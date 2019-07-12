@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import {Table, Button } from 'reactstrap';
 import {inject, observer} from 'mobx-react'
 import UsersTablePagination from './UsersTablePagination'
 
@@ -25,8 +25,8 @@ export default class UsersTable extends Component {
         { this.props.userStore.users.map( (user) => {
           return (<tr>
             <td>{user.name}</td>
-            <td>{user.admin.toString()}</td>
-            <td>{user.instructor.toString()}</td>
+            <td>{user.admin.toString()} <Button onClick={()=>this.props.userStore.toggleAdmin(user.id, !user.admin)}>Toggle Admin Status</Button></td>
+            <td>{user.instructor.toString()} <Button onClick={()=>this.props.userStore.toggleInstructor(user.id, !user.instructor)}>Toggle Instructor Status</Button></td>
           </tr>)
         } )}
         </tbody>

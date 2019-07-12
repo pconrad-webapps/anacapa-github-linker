@@ -21,3 +21,31 @@ export function getUsers(page, pageSize) {
         }
     });
 }
+
+export function setInstructor(id, value){
+    return axios.patch(`http://localhost:3000/api/users/${id}`,{
+        data: {
+            attributes:{
+                instructor: value
+            }
+        }
+    }, {
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+        }
+    });
+}
+
+export function setAdmin(id, value){
+    return axios.patch(`http://localhost:3000/api/users/${id}`,{
+        data: {
+            attributes:{
+                admin: value
+            }
+        }
+    }, {
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+        }
+    });
+}
