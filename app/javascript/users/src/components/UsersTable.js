@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Table} from 'reactstrap';
+import {Table, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import {inject, observer} from 'mobx-react'
+
 
 @inject('userStore')
 @observer
@@ -11,6 +12,7 @@ export default class UsersTable extends Component {
   }
   render() {
     return (
+      <div>
       <Table>
         <thead>
         <tr>
@@ -29,6 +31,9 @@ export default class UsersTable extends Component {
         } )}
         </tbody>
       </Table>
-    );
+      <UsersTablePagination />
+
+      </div>
+  );
   }
 }
