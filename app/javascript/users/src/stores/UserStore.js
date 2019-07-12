@@ -32,7 +32,7 @@ export default class UserStore {
         };
       });
       this.setUsers(users);
-      this.setTotalPages(response.data.meta.totalPages);
+      this.setTotalPages(response.data.meta.total_pages);
     });
   }
 }
