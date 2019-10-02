@@ -1,4 +1,5 @@
 require 'Octokit_Wrapper'
+require 'json'
 class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
@@ -38,6 +39,7 @@ class CoursesController < ApplicationController
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
+    update_webhooks
   end
 
   # PATCH/PUT /courses/1
@@ -52,6 +54,7 @@ class CoursesController < ApplicationController
         format.json { render json: @course.errors, status: :unprocessable_entity }
       end
     end
+    update_webhooks
   end
 
   # DELETE /courses/1
@@ -99,7 +102,60 @@ class CoursesController < ApplicationController
     end
   end
 
+    # Format of return from org_hooks is this:
+    # [{:type=>"Organization",
+    #   :id=>145482900,
+    #   :name=>"web",
+    #   :active=>true,
+    #   :events=>["push"],
+    #   :config=>
+    #     {:content_type=>"json",
+    #     :secret=>"********",
+    #     :url=>"http://localhost:3000/github_webhooks",
+    #     :insecure_ssl=>"0"},
+    #   :updated_at=>2019-10-02 20:10:54 UTC,
+    #   :created_at=>2019-10-02 20:10:54 UTC,
+    #   :url=>"https://api.github.com/orgs/test-course-org/hooks/145482900",
+    #   :ping_url=>
+    #     "https://api.github.com/orgs/test-course-org/hooks/145482900/pings"}
+    # ]
+
+  def update_webhooks
+    return if ENV['GITHUB_WEBHOOK_SECRET'].nil?
+  
+    all_existing_hooks = machine_user.org_hooks(@course.course_organization)
+    logger.info "Existing Hooks for #{@course.name}, org: #{@course.course_organization}, result: #{sawyer_to_s(all_existing_hooks)}"
+
+    webhook_url = "#{request.base_url}/github_webhooks"
+    if @course.enable_web_hooks and all_existing_hooks.empty?
+      result = machine_user.create_org_hook(
+        @course.course_organization,
+        {
+          :url => webhook_url,
+          :content_type => 'json',
+          :secret => ENV['GITHUB_WEBHOOK_SECRET']
+        },
+        {
+          :events => ['push'],
+          :active => true
+        }
+      )
+      logger.info "Attempted adding webhook for course: #{@course.name}, org: #{@course.course_organization}, result: #{result}"
+    elsif not @course.enable_web_hooks and  not all_existing_hooks.empty?
+      all_existing_hooks.each do |hook|
+        result = machine_user.remove_org_hook(@course.course_organization, hook[:id])
+        logger.info "Attempted removing webhook for course: #{@course.name}, org: #{@course.course_organization}, hook: #{sawyer_to_s(hook)}, result: #{result}"
+      end
+    end
+  end
   private
+
+    # Convert Sawyer::Resource returned by Octokit to printable string for logging
+    def sawyer_to_s(s)
+      s.kind_of?(Array) ? s.map(&:to_h).to_json : s.to_json
+    end
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_course
       @course = Course.find(params[:id])
@@ -117,6 +173,11 @@ class CoursesController < ApplicationController
     def session_user
       client = Octokit_Wrapper::Octokit_Wrapper.session_user(session[:token])
     end
+
+    def machine_user
+      client = Octokit_Wrapper::Octokit_Wrapper.machine_user
+    end
+
 
     def cross_check_user_emails_with_class(course)
       email_to_student = Hash.new
