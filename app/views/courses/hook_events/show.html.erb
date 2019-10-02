@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Hooktype</th>
+      <th>Sender Name</th>
+      <th>Course</th>
+      <th>Org</th>
+      <th>Repo</th>
+    </tr>
+  </thead>
+
+  <tbody>
+      <tr>
+        <td><%= @hook_event.hooktype %></td>
+        <td><%= @hook_event.sender_name %></td>
+        <td><%= @course.name %></td>
+        <td><%= @hook_event.org_name %></td>
+        <td><%= @hook_event.repo_name %></td>
+      </tr>
+  </tbody>
+</table>
+
+
+<p>
+  <strong>Content:</strong>
+  <pre>
+  <%= @hook_event.pretty_json %>
+  </pre>
+</p>
+
+<%= link_to 'Back', course_hook_events_path %>

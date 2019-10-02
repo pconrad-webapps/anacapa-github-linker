@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Hook Events</h1>
+
+<p> Course: </p>
+<p> <%= @course.name %></p>
+<p> <%= @course.id%></p>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Hooktype</th>
+      <th>Sender Name</th>
+      <th>Course</th>
+      <th>Org</th>
+      <th>Repo</th>
+      <th>Created At</th>
+      <th>Show</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @hook_events.each do |hook_event| %>
+      <tr>
+        <td><%= hook_event.hooktype %></td>
+        <td><%= hook_event.sender_name %></td>
+        <td><%= @course.name %></td>
+        <td><%= hook_event.org_name %></td>
+        <td><%= hook_event.repo_name %></td>
+        <td><%= hook_event.created_at %></td>
+        <td><%= link_to 'Show',  course_hook_event_path(@course, hook_event) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

@@ -20,10 +20,11 @@ class Ability
     end
     if user.has_role? :instructor
       can :create, Course
-      # insturctors can only modify courses they have been granted access
+      # instructors can only modify courses they have been granted access
       can :manage, Course, id: Course.with_role(:instructor, user).pluck(:id)
 
       can :manage, RosterStudent, course_id: Course.with_role(:instructor, user).pluck(:id)
+      can [:show, :index], HookEvent, course_id: Course.with_role(:instructor, user).pluck(:id)
     end
     if user.has_role? :admin
       # manage = perform any action

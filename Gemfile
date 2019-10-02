@@ -61,6 +61,16 @@ gem 'jquery-rails'
 # For managing spreadsheets such as the roster and gradebook
 gem "roo", "~> 2.7.0"
 
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+# Pagination
+gem 'kaminari'
+
+gem "actionview", ">= 5.1.6.2"
+
+gem 'github_webhook'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -79,10 +89,4 @@ group :development do
   gem 'pry-byebug'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# Pagination
-gem 'kaminari'
-
-gem "actionview", ">= 5.1.6.2"

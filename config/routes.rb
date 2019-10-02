@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  
+
+
   # resources :roster_students
   # devise routes
   devise_for :users, :controllers => {
@@ -22,6 +25,7 @@ Rails.application.routes.draw do
           post :import
         end
       end
+      resources :hook_events, only: [:index, :show, :destroy]
     end
   end
 
@@ -30,4 +34,7 @@ Rails.application.routes.draw do
   # home page routes
   resources :visitors # NOTE that this defines a number of unused routes that would be good to remove for security
   root :to => "visitors#index"
+
+  # webhooks
+  resource :github_webhooks, only: :create, defaults: { formats: :json }
 end

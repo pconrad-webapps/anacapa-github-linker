@@ -122,8 +122,16 @@ class CoursesController < ApplicationController
 
   def update_webhooks
     return if ENV['GITHUB_WEBHOOK_SECRET'].nil?
-  
-    all_existing_hooks = machine_user.org_hooks(@course.course_organization)
+    begin
+      all_existing_hooks = machine_user.org_hooks(@course.course_organization)
+    rescue Exception => e
+      logger.error "Failed to get existing webhooks for org: #{@course.course_organization}"
+      logger.error "Check whether machine_user has admin:org_hooks"
+      logger.error "Exception info: "
+      logger.error e.message
+      logger.error e.backtrace.inspect
+      return
+    end  
     logger.info "Existing Hooks for #{@course.name}, org: #{@course.course_organization}, result: #{sawyer_to_s(all_existing_hooks)}"
 
     webhook_url = "#{request.base_url}/github_webhooks"
@@ -136,11 +144,11 @@ class CoursesController < ApplicationController
           :secret => ENV['GITHUB_WEBHOOK_SECRET']
         },
         {
-          :events => ['push'],
+          :events => ['*'],
           :active => true
         }
       )
-      logger.info "Attempted adding webhook for course: #{@course.name}, org: #{@course.course_organization}, result: #{result}"
+      logger.info "Attempted adding webhook for course: #{@course.name}, org: #{@course.course_organization}, result: #{sawyer_to_s(result)}"
     elsif not @course.enable_web_hooks and  not all_existing_hooks.empty?
       all_existing_hooks.each do |hook|
         result = machine_user.remove_org_hook(@course.course_organization, hook[:id])
