@@ -61,6 +61,10 @@ gem 'jquery-rails'
 # For managing spreadsheets such as the roster and gradebook
 gem "roo", "~> 2.7.0"
 
+# MongoDB
+gem 'mongoid', '~> 6.0'
+gem 'bson_ext'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
