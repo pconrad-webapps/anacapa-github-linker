@@ -35,6 +35,7 @@ and render differently depending on whether or not the user is privlidged %>
         <tr>
           <th>Name</th>
           <th>Hidden</th>
+          <th>Webhooks</th>
           <th colspan="3"></th>
         </tr>
       </thead>
@@ -52,7 +53,10 @@ and render differently depending on whether or not the user is privlidged %>
                 %>
               </td>
               <td>
-                <%= course.hidden ? "Hidden" : "Visible" %>
+                <%= course.hidden ? "X" : "" %>
+              </td>
+              <td>
+                <%=  link_to(course.enable_web_hooks ? 'Enabled' : 'Disabled', course_hook_events_path(course))  %>
               </td>
               <td>
                 <% if can? :update, course %>
